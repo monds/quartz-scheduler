@@ -1,0 +1,3 @@
+scheduler:
+  job-base-packages:
+    - com.monds.scheduler.job

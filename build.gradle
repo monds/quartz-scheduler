@@ -1,0 +1,68 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+	id 'distribution'
+}
+
+group = 'com.monds'
+version = '0.0.4'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java']
+		}
+		resources {
+			srcDirs = ['src/main/resources']
+		}
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-quartz'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.oracle.ojdbc:ojdbc8'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation files ('lib/orai18n.jar')
+	// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.6.0'
+
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+task copyToLib(type: Copy) {
+	into "$buildDir/output/libs"
+	from configurations.runtimeClasspath
+}
+
+distributions {
+	main {
+		contents {
+			from jar // copies your jar
+			from(project.configurations.runtimeClasspath) // copies dependency jars
+		}
+	}
+}
