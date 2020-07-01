@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -23,6 +24,7 @@ import java.util.Properties;
 
 @Slf4j
 @Configuration
+@ComponentScan("com.monds.scheduler")
 public class QuartzJobScheduler {
 
     @Autowired
